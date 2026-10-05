@@ -1,0 +1,3 @@
+wird immer der gleiche browser/gerät verwendet? Dann alles okay. sonst sollte server hin
+wie soll es mit versonieen sein. mehrere graphen mit verschiedenen alten versionen? Oder einfach alle hinter einander chronologisch?
+Namen vergeben? Wie soll es angezeigt werden?

@@ -32,6 +32,9 @@
 
     <script src="js/main.js?v=2023-12-13"></script>
     <script src="js/base64.js"></script>
+
+    <script src="js/storage.js"></script>
+    <script src="js/saving.js"></script>
     
     <meta name="viewport" content="width=device-width, initial-scale=1" />
 
@@ -126,6 +129,8 @@
                 DAGittyControl.getView().closeDialog()
             }
         }
+         showSavedGraphs();
+
     }
     window.onload = initialize;
     </script>
@@ -409,6 +414,14 @@ E -&gt; D
          <tr><td>covariates</td><td class="info" id="info_covariates">0</td></tr>
          <tr><td>causal paths</td><td class="info" id="info_frontdoor">0</td></tr>
       </table>
+   </div>
+   <h3 onclick="displayToggle('Saving')"><img src="images/arrow-down.png" alt="" id="a_saving"> Saving</h3>
+   <div id="Saving" style="display:block">
+      <p> Test </p>
+      <button type="button" onclick="saveCurrentModel()">Save graph</button>
+      <p>Saved graphs:</p>
+      <ul id="saved_graphs">
+      </ul>
    </div>
 
    </div>
