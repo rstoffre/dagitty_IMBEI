@@ -1,21 +1,5 @@
-function saveCurrentModel() {
-    if (!Model.dag) {
-        alert("Kein Modell geladen.");
-        return;
-    }
 
-    try {
-        const id = saveModel(
-            "my-model",
-            Model.dag.toString()
-        );
-
-        alert("Modell gespeichert: Version " + id);
-    } catch (error) {
-        console.error("Fehler beim Speichern:", error);
-        alert("Das Modell konnte nicht gespeichert werden.");
-    }
-}
+// Show the list of saved graphs in the UI
 function showSavedGraphs() {
     const list = document.getElementById("saved_graphs");
     const models = getAllSavedModels();
@@ -46,6 +30,7 @@ function showSavedGraphs() {
         list.appendChild(item);
     });
 }
+// Save the current model to local storage
 async function saveCurrentModel() {
     if (!Model.dag) {
         alert("Kein Modell geladen.");
@@ -57,4 +42,74 @@ async function saveCurrentModel() {
     showSavedGraphs();
 
     alert("Modell gespeichert: Version " + id);
+}
+
+// Export the current model and its history to a JSON file
+function exportCurrentModel() {
+    const modelId = "my-model";
+    const data = exportModelHistory(modelId);
+
+    if (data.models.length === 0) {
+        alert("Keine gespeicherten Versionen vorhanden.");
+        return;
+    }
+
+    const blob = new Blob(
+        [JSON.stringify(data, null, 2)],
+        { type: "application/json;charset=utf-8" }
+    );
+
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+
+    link.href = url;
+    link.download = "dagitty-model-history.json";
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+
+    URL.revokeObjectURL(url);
+}
+
+// Import a model and its history from a JSON file
+function importModelFile(event) {
+    const file = event.target.files[0];
+
+    if (!file) {
+        return;
+    }
+
+    const reader = new FileReader();
+
+    reader.onload = function () {
+        try {
+            const importedData = JSON.parse(reader.result);
+
+            importModelHistory(importedData);
+
+            const newestModel = importedData.models
+                .slice()
+                .sort((a, b) =>
+                    new Date(b.createdAt) - new Date(a.createdAt)
+                )[0];
+
+            if (newestModel) {
+                document.getElementById("adj_matrix").value =
+                    newestModel.content;
+
+                loadDAGFromTextData();
+            }
+
+            showSavedGraphs();
+
+            alert("Graph und Historie wurden importiert.");
+        } catch (error) {
+            console.error("Import fehlgeschlagen:", error);
+            alert("Die Datei konnte nicht importiert werden.");
+        }
+
+        event.target.value = "";
+    };
+
+    reader.readAsText(file);
 }

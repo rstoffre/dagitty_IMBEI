@@ -419,6 +419,22 @@ E -&gt; D
    <div id="Saving" style="display:block">
       <p> Test </p>
       <button type="button" onclick="saveCurrentModel()">Save graph</button>
+      <button type="button" onclick="exportCurrentModel()">
+         Export graph history
+      </button>
+
+      <button type="button"
+            onclick="document.getElementById('model_import_file').click()">
+         Import graph history
+      </button>
+
+      <input
+         type="file"
+         id="model_import_file"
+         accept=".json,.txt,application/json"
+         style="display:none"
+         onchange="importModelFile(event)"
+      >
       <p>Saved graphs:</p>
       <ul id="saved_graphs">
       </ul>
