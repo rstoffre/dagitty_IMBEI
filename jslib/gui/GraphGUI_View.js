@@ -589,11 +589,14 @@ var DAGittyGraphView = Class.extend({
 
 		for( i = 0 ; i < vv.length ; i ++ ){
 			c = this.toScreenCoordinate( vv[i].layout_pos_x, vv[i].layout_pos_y )
-			var vs = { id: vv[i].id, 
-				x : c[0],
-				y : c[1],
-				adjacent_edges : [],
-				v : vv[i] }
+			var vs = { 
+				id: vv[i].id, 
+				x: c[0],
+				y: c[1],
+				adjacent_edges: [],
+				v: vv[i],
+				diffStatus: vv[i].diffStatus
+			}
 
 			var vertex_type = ""			
 			if( g.isSource(vv[i]) ){
@@ -628,7 +631,8 @@ var DAGittyGraphView = Class.extend({
 				v1 : this.getVertexShape( ee[i].v1.id ), 
 				v2 : this.getVertexShape( ee[i].v2.id ),
 				directed : ee[i].directed,
-				e: ee[i]
+				e: ee[i],
+				diffStatus: ee[i].diffStatus
 			}
 
 			if( ee[i].layout_pos_x ){

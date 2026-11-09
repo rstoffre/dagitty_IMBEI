@@ -7450,7 +7450,7 @@ var GraphGUI_SVG = Class.extend({
 		var e = document.createElementNS( svgns, "path" ), i, j, f, pathclass
 		
 		el.dom = document.createElementNS( svgns, "g" )
-		el.dom.setAttribute("class", "path")
+		el.dom.classList.add("path")
 
 		var sty = this.getStyle()
 		var finalstyle = {}

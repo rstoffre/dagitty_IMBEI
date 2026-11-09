@@ -34,14 +34,15 @@ function saveAllModels(models) {
 //     content: "dagitty model content",
 //     createdAt: "2024-06-01T12:00:00.000Z"
 // }
-function saveModel(modelId, content) {
+function saveModel(modelId, content, name) {
     const models = getAllModels();
 
     const model = {
-        id: crypto.randomUUID(),
-        modelId: modelId,
-        content: content,
-        createdAt: new Date().toISOString()
+    id: crypto.randomUUID(),
+    modelId: modelId,
+    name: name,
+    content: content,
+    createdAt: new Date().toISOString()
     };
 
     models.push(model);
@@ -92,6 +93,7 @@ function exportModelHistory(modelId) {
         modelId: modelId,
         exportedAt: new Date().toISOString(),
         models: getModelVersions(modelId).map(model => ({
+            name: model.name || "Unbenannte Version" ,
             content: model.content,
             createdAt: model.createdAt
         }))
@@ -112,6 +114,7 @@ function importModelHistory(importedData) {
     const importedModels = importedData.models.map(model => ({
         id: crypto.randomUUID(),
         modelId: modelId,
+        name: model.name || "Unbenannte Version",
         content: model.content,
         createdAt: model.createdAt
     }));

@@ -25,6 +25,7 @@
     <link rel="stylesheet" type="text/css" href="dags.css" />
 
     <script src="js/dagitty.js"></script>
+    <script src="../jslib/graph/GraphDiff.js"></script>
     <script src="js/example-dags.js"></script>
 
     <script src="js/styles/semlike.js"></script>
@@ -128,6 +129,12 @@
                 DAGittyControl.getView().getImplementation().stopMousemove()
                 DAGittyControl.getView().closeDialog()
             }
+            // Strg+S unter Windows/Linux oder Cmd+S auf dem Mac
+            if( (e.ctrlKey || e.metaKey) && e.key.toLowerCase() === "s" ){
+               e.preventDefault();
+               saveCurrentModel();
+            }
+
         }
          showSavedGraphs();
 
@@ -214,6 +221,28 @@ B -&gt; D
 B -&gt; Z [pos="0.680,-0.496"]
 E -&gt; D
    </div>
+<div id="comparison_view" style="display:none">
+   <div class="comparison-header">
+      <strong>Graph comparison</strong>
+      <button type="button" onclick="closeComparisonView()">
+         Close
+      </button>
+   </div>
+
+   <div class="comparison-graphs">
+      <div>
+         <div class="comparison-graph-title">Old version</div>
+         <div id="comparison_old_graph"
+              class="comparison-graph"></div>
+      </div>
+
+      <div>
+         <div class="comparison-graph-title">New version</div>
+         <div id="comparison_new_graph"
+              class="comparison-graph"></div>
+      </div>
+   </div>
+</div>
 
 </main>
 
@@ -416,6 +445,7 @@ E -&gt; D
       </table>
    </div>
    <h3 onclick="displayToggle('Saving')"><img src="images/arrow-down.png" alt="" id="a_saving"> Saving</h3>
+   
    <div id="Saving" style="display:block">
       <p> Test </p>
       <button type="button" onclick="saveCurrentModel()">Save graph</button>
@@ -436,6 +466,36 @@ E -&gt; D
          onchange="importModelFile(event)"
       >
       <p>Saved graphs:</p>
+<h3 onclick="displayToggle('comparison_controls')">
+   <img src="images/arrow-right.png"
+        alt=""
+        id="a_comparison_controls">
+   Compare versions
+</h3>
+
+   <div id="comparison_controls" style="display:none">
+      <p>
+         <label>
+            Alte Version:
+            <select id="comparison_old"></select>
+         </label>
+      </p>
+
+      <p>
+         <label>
+            Neue Version:
+            <select id="comparison_new"></select>
+         </label>
+      </p>
+
+      <p>
+         <button type="button" onclick="compareSavedModels()">
+            Compare
+         </button>
+      </p>
+
+      <pre id="comparison_result"></pre>
+   </div>
       <ul id="saved_graphs">
       </ul>
    </div>

@@ -56,9 +56,12 @@ var GraphGUI_SVG = Class.extend({
 	 */
 	createEdgeShape : function( edge_type, el ){
 		var e = document.createElementNS( svgns, "path" ), i, j, f, pathclass
-		
+
 		el.dom = document.createElementNS( svgns, "g" )
-		el.dom.setAttribute("class", "path")
+
+		if( el.diffStatus ){
+			el.dom.classList.add( "diff-" + el.diffStatus )
+		}
 
 		var sty = this.getStyle()
 		var finalstyle = {}
@@ -175,6 +178,9 @@ var GraphGUI_SVG = Class.extend({
 		var e = document.createElementNS( svgns, "path" ), f, i
 		
 		el.dom = document.createElementNS( svgns, "g" )
+		if (el.diffStatus) {
+    		el.dom.classList.add("diff-" + el.diffStatus);
+		}
 		e.setAttribute( "fill-opacity", 0.7 )
 		e.setAttribute( "stroke-width", 2 )
 		e.setAttribute( "z-index", 1 )
@@ -463,7 +469,7 @@ var GraphGUI_SVG = Class.extend({
 		if( !v ){ 
 			return
 		}
-
+		
 		var ptr_x = this.pointerX(e)-this.getContainer().offsetLeft
 		var ptr_y = this.pointerY(e)-this.getContainer().offsetTop
 		
@@ -530,7 +536,7 @@ var GraphGUI_SVG = Class.extend({
 		svg.style.width = w+"px"
 		svg.style.height = h+"px"
 		svg.setAttribute("width", w)
-		svg.setAttribute("height", w)
+		svg.setAttribute("height", h)
 	},
 
 
